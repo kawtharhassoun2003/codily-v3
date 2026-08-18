@@ -1,0 +1,14 @@
+const cursor=document.querySelector('.cursor');
+window.addEventListener('pointermove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px'});
+const progress=document.querySelector('.progress');
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-innerHeight;progress.style.width=(scrollY/h*100)+'%';document.querySelectorAll('[data-parallax]').forEach(el=>{el.style.marginTop=(scrollY*-.08)+'px'})});
+const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(x=>observer.observe(x));
+const stage=document.querySelector('.service-stage');
+document.querySelectorAll('.service').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.service').forEach(b=>b.classList.remove('active'));btn.classList.add('active');stage.dataset.active=btn.dataset.type}));
+const serviceVisual=document.querySelector('.service-visual');
+serviceVisual.addEventListener('mousemove',e=>{const r=serviceVisual.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;document.querySelectorAll('.ui').forEach(el=>{el.style.marginLeft=(x*18)+'px';el.style.marginTop=(y*18)+'px'})});
+serviceVisual.addEventListener('mouseleave',()=>document.querySelectorAll('.ui').forEach(el=>{el.style.marginLeft='0';el.style.marginTop='0'}));
+const form=document.getElementById('projectForm');
+form.addEventListener('submit',e=>{e.preventDefault();const d=new FormData(form);const phone='96181274332';const text=`Hi Codily!%0A%0AName: ${encodeURIComponent(d.get('name'))}%0AEmail: ${encodeURIComponent(d.get('email'))}%0ABusiness: ${encodeURIComponent(d.get('business'))}%0AProject: ${encodeURIComponent(d.get('type'))}%0A%0AIdea:%0A${encodeURIComponent(d.get('message'))}`;window.open(`https://wa.me/${phone}?text=${text}`,'_blank');document.getElementById('formStatus').textContent='Opening WhatsApp…';});
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}}));
